@@ -1,41 +1,42 @@
-import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
-import { AppLoading, Asset } from 'expo';
-import Navigation from './Navigation/index';
-import { Block } from './Components'
-
+import React, { Component } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { AppLoading } from "expo";
+import { Asset } from "expo-asset";
+import Navigation from "./Navigation/index";
+import Block from "./Components/block.js";
 
 const images = [
-  require('./assets/image.jpg'),
-  require('./assets/image.jpg'),
-  require('./assets/image.jpg')
-]
+  require("./assets/image.jpg"),
+  require("./assets/image.jpg"),
+  require("./assets/image.jpg")
+];
 
 export default class App extends Component {
   state = {
-    isLoadingComplete: false,
-  }
+    isLoadingComplete: false
+  };
 
   handleResourcesAsync = async () => {
     const cacheImages = images.map(img => {
-      return Asset.fromModule(image).downloadAsync()
-    })
-    return Promise.all(cacheImages)
-  }
+      return Asset.fromModule(image).downloadAsync();
+    });
+    return Promise.all(cacheImages);
+  };
   render() {
-    if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
+    if (!this.state.isLoadingComplete) {
       return (
         <AppLoading
           startAsync={this.handleResourcesAsync}
           onError={error => console.warn(error)}
           onFinish={() => this.setState({ isLoadingComplete: true })}
         />
-      )
+      );
     }
     return (
-      <Block white >
+      <Block>
         <Navigation />
       </Block>
+      // <Text>Hello World</Text>
     );
   }
 }
